@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>スタッフメモ</title>
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #18181c;
+    --surface-2: #232328;
+    --border: #2a2a30;
+    --text: #f0ede4;
+    --text-dim: #8a8680;
+    --accent: #c9a961;
+    --accent-dim: #6b5a3a;
+    --good: #6db96d;
+    --bad: #d97a6a;
+    --neutral: #7a8fb8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  body { padding-bottom: env(safe-area-inset-bottom); }
+
+/* ヘッダー */
+.header {
+position: sticky; top: 0; z-index: 10;
+background: var(–bg);
+border-bottom: 1px solid var(–border);
+padding: 14px 16px 12px;
+padding-top: calc(14px + env(safe-area-inset-top));
+}
+.header h1 {
+font-size: 13px;
+letter-spacing: 0.2em;
+color: var(–accent);
+font-weight: 500;
+}
+.header h1::before { content: “● “; color: var(–accent); }
+
+/* 検索 */
+.search-wrap { margin-top: 10px; position: relative; }
+.search {
+width: 100%;
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 10px;
+color: var(–text);
+font-size: 16px;
+padding: 11px 14px 11px 38px;
+outline: none;
+-webkit-appearance: none;
+}
+.search:focus { border-color: var(–accent-dim); }
+.search-icon {
+position: absolute; left: 12px; top: 50%;
+transform: translateY(-50%);
+color: var(–text-dim);
+pointer-events: none;
+}
+
+/* スタッフ一覧 */
+.staff-list {
+padding: 8px 12px 100px;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 8px;
+}
+.staff-card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 10px;
+padding: 12px 10px;
+cursor: pointer;
+transition: all 0.15s;
+position: relative;
+overflow: hidden;
+}
+.staff-card:active { background: var(–surface-2); transform: scale(0.98); }
+.staff-card .name {
+font-size: 15px;
+font-weight: 500;
+letter-spacing: 0.02em;
+}
+.staff-card .count {
+font-size: 11px;
+color: var(–text-dim);
+margin-top: 4px;
+letter-spacing: 0.05em;
+}
+.staff-card .latest {
+font-size: 11px;
+color: var(–text-dim);
+margin-top: 2px;
+}
+.staff-card .dot {
+position: absolute;
+top: 10px; right: 10px;
+width: 6px; height: 6px;
+border-radius: 50%;
+}
+.staff-card[data-recent=“true”] .dot { background: var(–accent); }
+
+/* 詳細画面 */
+.detail {
+position: fixed; inset: 0;
+background: var(–bg);
+z-index: 20;
+transform: translateX(100%);
+transition: transform 0.25s ease;
+display: flex; flex-direction: column;
+padding-top: env(safe-area-inset-top);
+padding-bottom: env(safe-area-inset-bottom);
+}
+.detail.open { transform: translateX(0); }
+.detail-header {
+padding: 14px 16px;
+border-bottom: 1px solid var(–border);
+display: flex; align-items: center;
+gap: 12px;
+}
+.back-btn {
+background: none; border: none;
+color: var(–text);
+font-size: 22px;
+cursor: pointer;
+padding: 4px 8px;
+margin-left: -8px;
+}
+.detail-name {
+font-size: 17px;
+font-weight: 500;
+letter-spacing: 0.03em;
+flex: 1;
+}
+.detail-name small {
+display: block;
+font-size: 11px;
+color: var(–text-dim);
+letter-spacing: 0.1em;
+margin-top: 2px;
+font-weight: 400;
+}
+
+/* 入力エリア */
+.input-area {
+padding: 12px 16px;
+border-bottom: 1px solid var(–border);
+background: var(–surface);
+}
+.tag-row {
+display: flex; gap: 6px;
+margin-bottom: 10px;
+flex-wrap: wrap;
+}
+.tag {
+font-size: 12px;
+padding: 5px 11px;
+border-radius: 20px;
+border: 1px solid var(–border);
+background: transparent;
+color: var(–text-dim);
+cursor: pointer;
+transition: all 0.15s;
+}
+.tag:active { transform: scale(0.95); }
+.tag.active[data-type=“good”] { background: var(–good); border-color: var(–good); color: #fff; }
+.tag.active[data-type=“bad”] { background: var(–bad); border-color: var(–bad); color: #fff; }
+.tag.active[data-type=“neutral”] { background: var(–neutral); border-color: var(–neutral); color: #fff; }
+.memo-input {
+width: 100%;
+background: var(–bg);
+border: 1px solid var(–border);
+border-radius: 8px;
+color: var(–text);
+font-size: 15px;
+padding: 10px 12px;
+resize: none;
+min-height: 70px;
+font-family: inherit;
+outline: none;
+-webkit-appearance: none;
+}
+.memo-input:focus { border-color: var(–accent-dim); }
+.add-btn {
+margin-top: 10px;
+width: 100%;
+background: var(–accent);
+color: #0d0d0f;
+border: none;
+border-radius: 8px;
+padding: 12px;
+font-size: 14px;
+font-weight: 600;
+letter-spacing: 0.1em;
+cursor: pointer;
+}
+.add-btn:active { opacity: 0.8; }
+.add-btn:disabled { opacity: 0.3; }
+
+/* メモ履歴 */
+.memos {
+flex: 1;
+overflow-y: auto;
+padding: 12px 16px 20px;
+}
+.memo-item {
+background: var(–surface);
+border-left: 3px solid var(–border);
+border-radius: 6px;
+padding: 10px 12px;
+margin-bottom: 8px;
+position: relative;
+}
+.memo-item[data-type=“good”] { border-left-color: var(–good); }
+.memo-item[data-type=“bad”] { border-left-color: var(–bad); }
+.memo-item[data-type=“neutral”] { border-left-color: var(–neutral); }
+.memo-item .meta {
+font-size: 11px;
+color: var(–text-dim);
+margin-bottom: 4px;
+letter-spacing: 0.05em;
+display: flex; justify-content: space-between;
+}
+.memo-item .body { font-size: 14px; line-height: 1.55; white-space: pre-wrap; }
+.memo-item .del {
+background: none; border: none;
+color: var(–text-dim);
+cursor: pointer;
+font-size: 12px;
+padding: 2px 6px;
+}
+.memo-item .del:active { color: var(–bad); }
+.empty {
+text-align: center;
+color: var(–text-dim);
+padding: 40px 20px;
+font-size: 13px;
+letter-spacing: 0.05em;
+}
+
+/* 全体メモ表示用 */
+.global-actions {
+padding: 0 12px 12px;
+display: flex; gap: 8px;
+}
+.global-btn {
+flex: 1;
+background: var(–surface);
+border: 1px solid var(–border);
+color: var(–text-dim);
+border-radius: 8px;
+padding: 8px;
+font-size: 12px;
+letter-spacing: 0.05em;
+cursor: pointer;
+}
+.global-btn:active { background: var(–surface-2); }
+</style>
+
+</head>
+<body>
+
+<div class="header">
+  <h1>STAFF NOTE</h1>
+  <div class="search-wrap">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" class="search" id="search" placeholder="名前で検索..." />
+  </div>
+</div>
+
+<div class="global-actions">
+  <button class="global-btn" onclick="exportData()">エクスポート</button>
+  <button class="global-btn" onclick="showRecent()">最近のメモ</button>
+</div>
+
+<div class="staff-list" id="staffList"></div>
+
+<div class="detail" id="detail">
+  <div class="detail-header">
+    <button class="back-btn" onclick="closeDetail()">‹</button>
+    <div class="detail-name" id="detailName"></div>
+  </div>
+  <div class="input-area">
+    <div class="tag-row">
+      <button class="tag" data-type="good" onclick="selectTag(this)">◎ 良かった</button>
+      <button class="tag" data-type="bad" onclick="selectTag(this)">△ 気になった</button>
+      <button class="tag" data-type="neutral" onclick="selectTag(this)">○ メモ</button>
+    </div>
+    <textarea class="memo-input" id="memoInput" placeholder="例:ピルスナーの注ぎ方が丁寧だった / 失敗を申告してくれた / 1on1で○○の話"></textarea>
+    <button class="add-btn" id="addBtn" onclick="addMemo()">記録する</button>
+  </div>
+  <div class="memos" id="memosList"></div>
+</div>
+
+<script>
+const STAFF = [
+  "藤咲 杏奈","木村 綾乃","加藤 有希","葛谷 進一郎","藤岡 友季也",
+  "白井 千晶","木村 明宏","八木 瑞希","関谷 汐梨","大江 信明",
+  "深澤 小春","髙橋 信知","髙部 凜","外崎 唯","梅澤 鈴奈",
+  "阿部 憲太","宇野 福峰","鈴木 里桜","宮内 萌々香","田上 恵梨那",
+  "豊田 彩莉","三宅 力","石田 優果"
+];
+
+const STORAGE_KEY = 'staff_memo_v1';
+let currentStaff = null;
+let currentTag = 'neutral';
+
+function loadData() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  } catch(e) { return {}; }
+}
+function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+
+function renderStaffList(filter = '') {
+  const data = loadData();
+  const list = document.getElementById('staffList');
+  const now = Date.now();
+  const recentMs = 1000 * 60 * 60 * 24 * 7; // 7日
+
+  const filtered = STAFF.filter(n => {
+    if (!filter) return true;
+    const q = filter.toLowerCase().replace(/\s/g,'');
+    return n.toLowerCase().replace(/\s/g,'').includes(q);
+  });
+
+  list.innerHTML = filtered.map(name => {
+    const memos = data[name] || [];
+    const count = memos.length;
+    const latest = memos[0];
+    const recent = latest && (now - latest.t < recentMs);
+    const latestText = latest ? formatDate(latest.t) : 'メモなし';
+    return `
+      <div class="staff-card" data-recent="${recent}" onclick="openDetail('${name}')">
+        <div class="dot"></div>
+        <div class="name">${name}</div>
+        <div class="count">${count} 件</div>
+        <div class="latest">${latestText}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function formatDate(t) {
+  const d = new Date(t);
+  const now = new Date();
+  const diff = (now - d) / 1000;
+  if (diff < 60) return 'たった今';
+  if (diff < 3600) return `${Math.floor(diff/60)}分前`;
+  if (diff < 86400) return `${Math.floor(diff/3600)}時間前`;
+  if (diff < 86400*7) return `${Math.floor(diff/86400)}日前`;
+  return `${d.getMonth()+1}/${d.getDate()}`;
+}
+
+function openDetail(name) {
+  currentStaff = name;
+  document.getElementById('detailName').innerHTML = name + '<small>' + (loadData()[name]?.length || 0) + ' RECORDS</small>';
+  document.getElementById('memoInput').value = '';
+  document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+  document.querySelector('.tag[data-type="neutral"]').classList.add('active');
+  currentTag = 'neutral';
+  renderMemos();
+  document.getElementById('detail').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detail').classList.remove('open');
+  currentStaff = null;
+  renderStaffList(document.getElementById('search').value);
+}
+
+function selectTag(el) {
+  document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentTag = el.dataset.type;
+}
+
+function addMemo() {
+  const text = document.getElementById('memoInput').value.trim();
+  if (!text || !currentStaff) return;
+  const data = loadData();
+  if (!data[currentStaff]) data[currentStaff] = [];
+  data[currentStaff].unshift({ t: Date.now(), type: currentTag, body: text });
+  saveData(data);
+  document.getElementById('memoInput').value = '';
+  renderMemos();
+  document.getElementById('detailName').innerHTML = currentStaff + '<small>' + data[currentStaff].length + ' RECORDS</small>';
+}
+
+function renderMemos() {
+  const data = loadData();
+  const memos = data[currentStaff] || [];
+  const list = document.getElementById('memosList');
+  if (memos.length === 0) {
+    list.innerHTML = '<div class="empty">まだメモがありません</div>';
+    return;
+  }
+  list.innerHTML = memos.map((m, i) => {
+    const d = new Date(m.t);
+    const dateStr = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const typeLabel = { good: '◎ 良かった', bad: '△ 気になった', neutral: '○ メモ' }[m.type] || '○';
+    return `
+      <div class="memo-item" data-type="${m.type}">
+        <div class="meta">
+          <span>${dateStr} · ${typeLabel}</span>
+          <button class="del" onclick="delMemo(${i})">削除</button>
+        </div>
+        <div class="body">${escapeHtml(m.body)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function delMemo(i) {
+  if (!confirm('このメモを削除しますか?')) return;
+  const data = loadData();
+  data[currentStaff].splice(i, 1);
+  saveData(data);
+  renderMemos();
+  document.getElementById('detailName').innerHTML = currentStaff + '<small>' + data[currentStaff].length + ' RECORDS</small>';
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function exportData() {
+  const data = loadData();
+  let text = '=== スタッフメモ エクスポート ===\n';
+  text += new Date().toLocaleString('ja-JP') + '\n\n';
+  STAFF.forEach(name => {
+    const memos = data[name] || [];
+    if (memos.length === 0) return;
+    text += `■ ${name} (${memos.length}件)\n`;
+    memos.forEach(m => {
+      const d = new Date(m.t);
+      const ds = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+      const tl = { good: '◎', bad: '△', neutral: '○' }[m.type] || '○';
+      text += `  ${ds} ${tl} ${m.body}\n`;
+    });
+    text += '\n';
+  });
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `staff_memo_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function showRecent() {
+  const data = loadData();
+  const all = [];
+  Object.entries(data).forEach(([name, memos]) => {
+    memos.forEach(m => all.push({ name, ...m }));
+  });
+  all.sort((a,b) => b.t - a.t);
+  const recent = all.slice(0, 20);
+  if (recent.length === 0) { alert('まだメモがありません'); return; }
+  let text = '【最近のメモ20件】\n\n';
+  recent.forEach(m => {
+    const d = new Date(m.t);
+    const ds = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const tl = { good: '◎', bad: '△', neutral: '○' }[m.type] || '○';
+    text += `${ds} ${tl} ${m.name}\n  ${m.body}\n\n`;
+  });
+  alert(text);
+}
+
+document.getElementById('search').addEventListener('input', e => {
+  renderStaffList(e.target.value);
+});
+
+renderStaffList();
+</script>
+
+</body>
+</html>
