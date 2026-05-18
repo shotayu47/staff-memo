@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -27,290 +26,371 @@
   }
   body { padding-bottom: env(safe-area-inset-bottom); }
 
-.header {
-position: sticky; top: 0; z-index: 10;
-background: #0d0d0f;
-border-bottom: 1px solid #2a2a30;
-padding: 14px 16px 12px;
-padding-top: calc(14px + env(safe-area-inset-top));
-}
-.header h1 {
-font-size: 13px;
-letter-spacing: 0.2em;
-color: #c9a961;
-font-weight: 500;
-}
-.header h1::before { content: “● “; color: #c9a961; }
+  .header {
+    position: sticky; top: 0; z-index: 10;
+    background: #0d0d0f;
+    border-bottom: 1px solid #2a2a30;
+    padding: 14px 16px 12px;
+    padding-top: calc(14px + env(safe-area-inset-top));
+  }
+  .header h1 {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: #c9a961;
+    font-weight: 500;
+  }
+  .header h1::before { content: "● "; color: #c9a961; }
 
-.search-wrap { margin-top: 10px; position: relative; }
-.search {
-width: 100%;
-background: #18181c !important;
-border: 1px solid #2a2a30;
-border-radius: 10px;
-color: #f0ede4 !important;
-font-size: 16px;
-padding: 11px 14px 11px 38px;
-outline: none;
--webkit-appearance: none;
-appearance: none;
-}
-.search::placeholder { color: #8a8680; }
-.search:focus { border-color: #6b5a3a; }
-.search-icon {
-position: absolute; left: 12px; top: 50%;
-transform: translateY(-50%);
-color: #8a8680;
-pointer-events: none;
-}
+  .search-wrap { margin-top: 10px; position: relative; }
+  .search {
+    width: 100%;
+    background: #18181c !important;
+    border: 1px solid #2a2a30;
+    border-radius: 10px;
+    color: #f0ede4 !important;
+    font-size: 16px;
+    padding: 11px 14px 11px 38px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .search::placeholder { color: #8a8680; }
+  .search:focus { border-color: #6b5a3a; }
+  .search-icon {
+    position: absolute; left: 12px; top: 50%;
+    transform: translateY(-50%);
+    color: #8a8680;
+    pointer-events: none;
+  }
 
-.staff-list {
-padding: 8px 12px 100px;
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-gap: 8px;
-background: #0d0d0f;
-}
-.staff-card {
-background: #18181c;
-border: 1px solid #2a2a30;
-border-radius: 10px;
-padding: 12px 10px;
-cursor: pointer;
-transition: all 0.15s;
-position: relative;
-overflow: hidden;
-}
-.staff-card:active { background: #232328; transform: scale(0.98); }
-.staff-card .name {
-font-size: 15px;
-font-weight: 500;
-letter-spacing: 0.02em;
-color: #f0ede4;
-}
-.staff-card .count {
-font-size: 11px;
-color: #8a8680;
-margin-top: 4px;
-letter-spacing: 0.05em;
-}
-.staff-card .latest {
-font-size: 11px;
-color: #8a8680;
-margin-top: 2px;
-}
-.staff-card .dot {
-position: absolute;
-top: 10px; right: 10px;
-width: 6px; height: 6px;
-border-radius: 50%;
-background: transparent;
-}
-.staff-card[data-recent=“true”] .dot { background: #c9a961; }
+  .staff-list {
+    padding: 8px 12px 100px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    background: #0d0d0f;
+  }
+  .staff-card {
+    background: #18181c;
+    border: 1px solid #2a2a30;
+    border-radius: 10px;
+    padding: 12px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .staff-card:active { background: #232328; transform: scale(0.98); }
+  .staff-card .name {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #f0ede4;
+  }
+  .staff-card .count {
+    font-size: 11px;
+    color: #8a8680;
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+  .staff-card .latest {
+    font-size: 11px;
+    color: #8a8680;
+    margin-top: 2px;
+  }
+  .staff-card .dot {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: transparent;
+  }
+  .staff-card[data-recent="true"] .dot { background: #c9a961; }
 
-.detail {
-position: fixed;
-top: 0; left: 0; right: 0; bottom: 0;
-width: 100vw;
-height: 100vh;
-background: #0d0d0f !important;
-z-index: 100;
-transform: translateX(100%);
-transition: transform 0.25s ease;
-display: flex;
-flex-direction: column;
-visibility: hidden;
-}
-.detail.open {
-transform: translateX(0);
-visibility: visible;
-}
-.detail-header {
-padding: 14px 16px;
-padding-top: calc(14px + env(safe-area-inset-top));
-border-bottom: 1px solid #2a2a30;
-display: flex;
-align-items: center;
-gap: 12px;
-background: #0d0d0f;
-flex-shrink: 0;
-}
-.back-btn {
-background: none;
-border: none;
-color: #f0ede4;
-font-size: 28px;
-cursor: pointer;
-padding: 4px 12px 4px 4px;
-margin-left: -4px;
-line-height: 1;
-}
-.detail-name {
-font-size: 17px;
-font-weight: 500;
-letter-spacing: 0.03em;
-flex: 1;
-color: #f0ede4;
-}
-.detail-name small {
-display: block;
-font-size: 11px;
-color: #8a8680;
-letter-spacing: 0.1em;
-margin-top: 2px;
-font-weight: 400;
-}
+  .detail {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0d0d0f !important;
+    z-index: 100;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+  }
+  .detail.open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+  .detail-header {
+    padding: 14px 16px;
+    padding-top: calc(14px + env(safe-area-inset-top));
+    border-bottom: 1px solid #2a2a30;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #0d0d0f;
+    flex-shrink: 0;
+  }
+  .back-btn {
+    background: none;
+    border: none;
+    color: #f0ede4;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 4px 12px 4px 4px;
+    margin-left: -4px;
+    line-height: 1;
+  }
+  .detail-name {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    flex: 1;
+    color: #f0ede4;
+  }
+  .detail-name small {
+    display: block;
+    font-size: 11px;
+    color: #8a8680;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+    font-weight: 400;
+  }
 
-.input-area {
-padding: 12px 16px;
-border-bottom: 1px solid #2a2a30;
-background: #18181c;
-flex-shrink: 0;
-}
-.tag-row {
-display: flex; gap: 6px;
-margin-bottom: 10px;
-flex-wrap: wrap;
-}
-.tag {
-font-size: 13px;
-font-weight: 500;
-padding: 8px 14px;
-border-radius: 20px;
-border: 1.5px solid #3a3a42;
-background: #232328;
-color: #a5a09a;
-cursor: pointer;
-transition: all 0.2s ease;
-font-family: inherit;
-position: relative;
-}
-.tag:active { transform: scale(0.93); }
-.tag.active {
-color: #fff;
-font-weight: 700;
-transform: scale(1.05);
-box-shadow: 0 0 0 2px rgba(255,255,255,0.15), 0 4px 12px rgba(0,0,0,0.4);
-}
-.tag.active[data-type=“good”] {
-background: #6db96d;
-border-color: #8fd48f;
-}
-.tag.active[data-type=“bad”] {
-background: #d97a6a;
-border-color: #e89a8c;
-}
-.tag.active[data-type=“neutral”] {
-background: #7a8fb8;
-border-color: #9aaed6;
-}
-.tag.active::before {
-content: “✓ “;
-font-weight: 700;
-}
-.memo-input {
-width: 100%;
-background: #0d0d0f !important;
-border: 1px solid #2a2a30;
-border-radius: 8px;
-color: #f0ede4 !important;
-font-size: 15px;
-padding: 10px 12px;
-resize: none;
-min-height: 70px;
-font-family: inherit;
-outline: none;
--webkit-appearance: none;
-appearance: none;
-}
-.memo-input::placeholder { color: #8a8680; }
-.memo-input:focus { border-color: #6b5a3a; }
-.add-btn {
-margin-top: 10px;
-width: 100%;
-background: #c9a961;
-color: #0d0d0f;
-border: none;
-border-radius: 8px;
-padding: 12px;
-font-size: 14px;
-font-weight: 600;
-letter-spacing: 0.1em;
-cursor: pointer;
-font-family: inherit;
-}
-.add-btn:active { opacity: 0.8; }
+  .input-area {
+    padding: 12px 16px;
+    border-bottom: 1px solid #2a2a30;
+    background: #18181c;
+    flex-shrink: 0;
+  }
+  .tag-row {
+    display: flex; gap: 6px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1.5px solid #3a3a42;
+    background: #232328;
+    color: #a5a09a;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    position: relative;
+  }
+  .tag:active { transform: scale(0.93); }
+  .tag.active {
+    color: #fff;
+    font-weight: 700;
+    transform: scale(1.05);
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.15), 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .tag.active[data-type="good"] {
+    background: #6db96d;
+    border-color: #8fd48f;
+  }
+  .tag.active[data-type="bad"] {
+    background: #d97a6a;
+    border-color: #e89a8c;
+  }
+  .tag.active[data-type="neutral"] {
+    background: #7a8fb8;
+    border-color: #9aaed6;
+  }
+  .tag.active::before {
+    content: "✓ ";
+    font-weight: 700;
+  }
+  .memo-input {
+    width: 100%;
+    background: #0d0d0f !important;
+    border: 1px solid #2a2a30;
+    border-radius: 8px;
+    color: #f0ede4 !important;
+    font-size: 15px;
+    padding: 10px 12px;
+    resize: none;
+    min-height: 70px;
+    font-family: inherit;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .memo-input::placeholder { color: #8a8680; }
+  .memo-input:focus { border-color: #6b5a3a; }
+  .add-btn {
+    margin-top: 10px;
+    width: 100%;
+    background: #c9a961;
+    color: #0d0d0f;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .add-btn:active { opacity: 0.8; }
 
-.memos {
-flex: 1;
-overflow-y: auto;
-padding: 12px 16px 20px;
-background: #0d0d0f;
--webkit-overflow-scrolling: touch;
-}
-.memo-item {
-background: #18181c;
-border-left: 3px solid #2a2a30;
-border-radius: 6px;
-padding: 10px 12px;
-margin-bottom: 8px;
-position: relative;
-}
-.memo-item[data-type=“good”] { border-left-color: #6db96d; }
-.memo-item[data-type=“bad”] { border-left-color: #d97a6a; }
-.memo-item[data-type=“neutral”] { border-left-color: #7a8fb8; }
-.memo-item .meta {
-font-size: 11px;
-color: #8a8680;
-margin-bottom: 4px;
-letter-spacing: 0.05em;
-display: flex; justify-content: space-between;
-}
-.memo-item .body {
-font-size: 14px;
-line-height: 1.55;
-white-space: pre-wrap;
-color: #f0ede4;
-}
-.memo-item .del {
-background: none; border: none;
-color: #8a8680;
-cursor: pointer;
-font-size: 12px;
-padding: 2px 6px;
-font-family: inherit;
-}
-.memo-item .del:active { color: #d97a6a; }
-.empty {
-text-align: center;
-color: #8a8680;
-padding: 40px 20px;
-font-size: 13px;
-letter-spacing: 0.05em;
-}
+  .memos {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px 20px;
+    background: #0d0d0f;
+    -webkit-overflow-scrolling: touch;
+  }
+  .memo-item {
+    background: #18181c;
+    border-left: 3px solid #2a2a30;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .memo-item[data-type="good"] { border-left-color: #6db96d; }
+  .memo-item[data-type="bad"] { border-left-color: #d97a6a; }
+  .memo-item[data-type="neutral"] { border-left-color: #7a8fb8; }
+  .memo-item .meta {
+    font-size: 11px;
+    color: #8a8680;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+    display: flex; justify-content: space-between;
+  }
+  .memo-item .body {
+    font-size: 14px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    color: #f0ede4;
+  }
+  .memo-item .actions {
+    display: flex;
+    gap: 4px;
+  }
+  .memo-item .act-btn {
+    background: none; border: none;
+    color: #8a8680;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 2px 8px;
+    font-family: inherit;
+    border-radius: 4px;
+  }
+  .memo-item .act-btn:active { background: #2a2a30; }
+  .memo-item .edit:active { color: #c9a961; }
+  .memo-item .del:active { color: #d97a6a; }
 
-.global-actions {
-padding: 0 12px 12px;
-display: flex; gap: 8px;
-background: #0d0d0f;
-}
-.global-btn {
-flex: 1;
-background: #18181c;
-border: 1px solid #2a2a30;
-color: #8a8680;
-border-radius: 8px;
-padding: 10px;
-font-size: 12px;
-letter-spacing: 0.05em;
-cursor: pointer;
-font-family: inherit;
-}
-.global-btn:active { background: #232328; }
+  /* 編集モード */
+  .memo-item.editing {
+    border-left-color: #c9a961 !important;
+    background: #1f1f24;
+  }
+  .memo-item .edit-tags {
+    display: flex;
+    gap: 4px;
+    margin: 8px 0;
+    flex-wrap: wrap;
+  }
+  .memo-item .edit-tag {
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 14px;
+    border: 1.5px solid #3a3a42;
+    background: #232328;
+    color: #a5a09a;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .memo-item .edit-tag.active {
+    color: #fff;
+    font-weight: 700;
+  }
+  .memo-item .edit-tag.active[data-type="good"] { background: #6db96d; border-color: #8fd48f; }
+  .memo-item .edit-tag.active[data-type="bad"] { background: #d97a6a; border-color: #e89a8c; }
+  .memo-item .edit-tag.active[data-type="neutral"] { background: #7a8fb8; border-color: #9aaed6; }
+  .memo-item .edit-textarea {
+    width: 100%;
+    background: #0d0d0f;
+    border: 1px solid #2a2a30;
+    border-radius: 6px;
+    color: #f0ede4;
+    font-size: 14px;
+    padding: 8px 10px;
+    resize: none;
+    min-height: 60px;
+    font-family: inherit;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    margin-bottom: 6px;
+  }
+  .memo-item .edit-textarea:focus { border-color: #6b5a3a; }
+  .memo-item .edit-actions {
+    display: flex;
+    gap: 6px;
+  }
+  .memo-item .save-btn {
+    flex: 1;
+    background: #c9a961;
+    color: #0d0d0f;
+    border: none;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .memo-item .save-btn:active { opacity: 0.8; }
+  .memo-item .cancel-btn {
+    flex: 1;
+    background: #232328;
+    color: #8a8680;
+    border: 1px solid #2a2a30;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .memo-item .cancel-btn:active { background: #2a2a30; }
+  .empty {
+    text-align: center;
+    color: #8a8680;
+    padding: 40px 20px;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
 
-body.detail-open { overflow: hidden; }
+  .global-actions {
+    padding: 0 12px 12px;
+    display: flex; gap: 8px;
+    background: #0d0d0f;
+  }
+  .global-btn {
+    flex: 1;
+    background: #18181c;
+    border: 1px solid #2a2a30;
+    color: #8a8680;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .global-btn:active { background: #232328; }
+
+  body.detail-open { overflow: hidden; }
 </style>
-
 </head>
 <body>
 
@@ -408,6 +488,7 @@ function formatDate(t) {
 
 function openDetail(name) {
   currentStaff = name;
+  editingIndex = -1;
   const count = loadData()[name]?.length || 0;
   document.getElementById('detailName').innerHTML = name + '<small>' + count + ' RECORDS</small>';
   document.getElementById('memoInput').value = '';
@@ -444,6 +525,9 @@ function addMemo() {
   document.getElementById('detailName').innerHTML = currentStaff + '<small>' + data[currentStaff].length + ' RECORDS</small>';
 }
 
+let editingIndex = -1;
+let editingTag = 'neutral';
+
 function renderMemos() {
   const data = loadData();
   const memos = data[currentStaff] || [];
@@ -456,16 +540,86 @@ function renderMemos() {
     const d = new Date(m.t);
     const dateStr = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
     const typeLabel = { good: '◎ 良かった', bad: '△ 気になった', neutral: '○ メモ' }[m.type] || '○';
+    const editedMark = m.edited ? ' (編集済)' : '';
+
+    if (editingIndex === i) {
+      return `
+        <div class="memo-item editing" data-type="${editingTag}">
+          <div class="meta">
+            <span>${dateStr} · 編集中</span>
+          </div>
+          <div class="edit-tags">
+            <button class="edit-tag ${editingTag==='good'?'active':''}" data-type="good" onclick="selectEditTag(this)">◎ 良かった</button>
+            <button class="edit-tag ${editingTag==='bad'?'active':''}" data-type="bad" onclick="selectEditTag(this)">△ 気になった</button>
+            <button class="edit-tag ${editingTag==='neutral'?'active':''}" data-type="neutral" onclick="selectEditTag(this)">○ メモ</button>
+          </div>
+          <textarea class="edit-textarea" id="editTextarea">${escapeHtml(m.body)}</textarea>
+          <div class="edit-actions">
+            <button class="cancel-btn" onclick="cancelEdit()">キャンセル</button>
+            <button class="save-btn" onclick="saveEdit(${i})">保存</button>
+          </div>
+        </div>
+      `;
+    }
+
     return `
       <div class="memo-item" data-type="${m.type}">
         <div class="meta">
-          <span>${dateStr} · ${typeLabel}</span>
-          <button class="del" onclick="delMemo(${i})">削除</button>
+          <span>${dateStr} · ${typeLabel}${editedMark}</span>
+          <div class="actions">
+            <button class="act-btn edit" onclick="startEdit(${i})">編集</button>
+            <button class="act-btn del" onclick="delMemo(${i})">削除</button>
+          </div>
         </div>
         <div class="body">${escapeHtml(m.body)}</div>
       </div>
     `;
   }).join('');
+}
+
+function startEdit(i) {
+  const data = loadData();
+  const memo = data[currentStaff][i];
+  editingIndex = i;
+  editingTag = memo.type;
+  renderMemos();
+  // テキストエリアにフォーカス
+  setTimeout(() => {
+    const ta = document.getElementById('editTextarea');
+    if (ta) {
+      ta.focus();
+      ta.setSelectionRange(ta.value.length, ta.value.length);
+    }
+  }, 50);
+}
+
+function selectEditTag(el) {
+  editingTag = el.dataset.type;
+  document.querySelectorAll('.edit-tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  // 親の左ボーダー色も更新
+  el.closest('.memo-item').setAttribute('data-type', editingTag);
+}
+
+function saveEdit(i) {
+  const newText = document.getElementById('editTextarea').value.trim();
+  if (!newText) {
+    alert('内容を入力してください');
+    return;
+  }
+  const data = loadData();
+  data[currentStaff][i].body = newText;
+  data[currentStaff][i].type = editingTag;
+  data[currentStaff][i].edited = true;
+  data[currentStaff][i].editedAt = Date.now();
+  saveData(data);
+  editingIndex = -1;
+  renderMemos();
+}
+
+function cancelEdit() {
+  editingIndex = -1;
+  renderMemos();
 }
 
 function delMemo(i) {
@@ -531,6 +685,5 @@ document.getElementById('search').addEventListener('input', e => {
 
 renderStaffList();
 </script>
-
 </body>
 </html>
