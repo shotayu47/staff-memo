@@ -389,7 +389,470 @@
   }
   .global-btn:active { background: #232328; }
 
+  /* バックアップエリア */
+  .backup-actions {
+    padding: 0 12px 14px;
+    display: flex;
+    gap: 8px;
+    background: #0d0d0f;
+  }
+  .backup-btn {
+    flex: 1;
+    background: #18181c;
+    border: 1px solid #2a2a30;
+    color: #f0ede4;
+    border-radius: 10px;
+    padding: 12px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    letter-spacing: 0.05em;
+  }
+  .backup-btn:active { background: #232328; transform: scale(0.98); }
+  .backup-btn.primary {
+    background: linear-gradient(135deg, #232328 0%, #2a251a 100%);
+    border-color: #4a3a20;
+  }
+  .backup-btn .icon {
+    font-size: 18px;
+  }
+  .backup-btn .last-backup {
+    font-size: 10px;
+    color: #8a8680;
+    margin-top: 2px;
+  }
+  .backup-btn .last-backup.warning {
+    color: #d97a6a;
+  }
+  .backup-btn .last-backup.good {
+    color: #6db96d;
+  }
+
   body.detail-open { overflow: hidden; }
+
+  /* タブ */
+  .tabs {
+    display: flex;
+    background: #0d0d0f;
+    border-bottom: 1px solid #2a2a30;
+    flex-shrink: 0;
+  }
+  .tab {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #8a8680;
+    padding: 12px;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    position: relative;
+    transition: color 0.2s;
+  }
+  .tab.active {
+    color: #c9a961;
+    font-weight: 600;
+  }
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 20%; right: 20%;
+    height: 2px;
+    background: #c9a961;
+  }
+
+  .tab-content { display: none; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; background: #0d0d0f; }
+  .tab-content.active { display: flex; flex-direction: column; }
+
+  /* プロフィールタブ */
+  .profile-section {
+    padding: 16px;
+    border-bottom: 1px solid #2a2a30;
+  }
+  .profile-section h3 {
+    font-size: 11px;
+    color: #c9a961;
+    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .skill-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0 4px;
+    gap: 10px;
+  }
+  .skill-name {
+    font-size: 14px;
+    color: #f0ede4;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+  .skill-levels {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .skill-level {
+    width: 36px;
+    height: 32px;
+    border: 1.5px solid #3a3a42;
+    background: #232328;
+    color: #8a8680;
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.15s;
+  }
+  .skill-level:active { transform: scale(0.93); }
+  .skill-level.active {
+    color: #fff;
+    font-weight: 700;
+  }
+  .skill-level[data-level="0"].active { background: #4a4a52; border-color: #6a6a72; }
+  .skill-level[data-level="1"].active { background: #d97a6a; border-color: #e89a8c; }
+  .skill-level[data-level="2"].active { background: #7a8fb8; border-color: #9aaed6; }
+  .skill-level[data-level="3"].active { background: #6db96d; border-color: #8fd48f; }
+
+  /* スキルの気になる点エリア */
+  .skill-block {
+    padding-bottom: 12px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #1f1f24;
+  }
+  .skill-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+  .skill-concern-toggle {
+    background: none;
+    border: none;
+    color: #8a8680;
+    font-size: 11px;
+    padding: 4px 0 4px 4px;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    width: 100%;
+  }
+  .skill-concern-toggle:active { color: #c9a961; }
+  .skill-concern-area {
+    display: none;
+    margin-top: 6px;
+    padding-left: 4px;
+  }
+  .skill-concern-area.open { display: block; }
+  .skill-concern-input {
+    width: 100%;
+    background: #18181c;
+    border: 1px solid #2a2a30;
+    border-radius: 6px;
+    color: #f0ede4;
+    font-size: 13px;
+    padding: 8px 10px;
+    resize: none;
+    min-height: 44px;
+    font-family: inherit;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .skill-concern-input::placeholder { color: #6a665e; }
+  .skill-concern-input:focus { border-color: #6b5a3a; }
+  .skill-status-row {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .skill-status-btn {
+    flex: 1;
+    background: #232328;
+    border: 1.5px solid #3a3a42;
+    color: #8a8680;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .skill-status-btn:active { transform: scale(0.95); }
+  .skill-status-btn.active {
+    color: #fff;
+    font-weight: 600;
+  }
+  .skill-status-btn.active[data-status="0"] { background: #d97a6a; border-color: #e89a8c; }
+  .skill-status-btn.active[data-status="1"] { background: #c9a961; border-color: #dcbe7c; color: #0d0d0f; }
+  .skill-status-btn.active[data-status="2"] { background: #6db96d; border-color: #8fd48f; }
+  .skill-concern-indicator {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 10px;
+    color: #d97a6a;
+    vertical-align: middle;
+  }
+
+  /* 1on1リスト */
+  .agenda-list {
+    margin-top: 8px;
+  }
+  .agenda-item {
+    background: #18181c;
+    border: 1px solid #2a2a30;
+    border-left: 3px solid #c9a961;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+  }
+  .agenda-item.done {
+    opacity: 0.5;
+    border-left-color: #6db96d;
+  }
+  .agenda-item-top {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .agenda-type-btn {
+    background: #232328;
+    border: 1.5px solid #3a3a42;
+    color: #8a8680;
+    border-radius: 14px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .agenda-type-btn.active[data-type="tell"] { background: #c9a961; border-color: #dcbe7c; color: #0d0d0f; font-weight: 600; }
+  .agenda-type-btn.active[data-type="ask"] { background: #7a8fb8; border-color: #9aaed6; color: #fff; font-weight: 600; }
+  .agenda-input {
+    width: 100%;
+    background: #0d0d0f;
+    border: 1px solid #2a2a30;
+    border-radius: 6px;
+    color: #f0ede4;
+    font-size: 13px;
+    padding: 8px 10px;
+    resize: none;
+    min-height: 44px;
+    font-family: inherit;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .agenda-input:focus { border-color: #6b5a3a; }
+  .agenda-bottom {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    align-items: center;
+  }
+  .agenda-done-btn {
+    flex: 1;
+    background: #232328;
+    border: 1.5px solid #3a3a42;
+    color: #8a8680;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .agenda-done-btn.active { background: #6db96d; border-color: #8fd48f; color: #fff; font-weight: 600; }
+  .agenda-del {
+    background: none;
+    border: none;
+    color: #8a8680;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0 8px;
+    font-family: inherit;
+  }
+  .agenda-del:active { color: #d97a6a; }
+  .add-agenda-btn {
+    width: 100%;
+    background: #232328;
+    border: 1.5px dashed #3a3a42;
+    color: #a5a09a;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .add-agenda-btn:active { background: #2a2a30; color: #c9a961; }
+
+  /* AI相談ボタン */
+  .ai-consult-section {
+    padding: 16px;
+    background: #18181c;
+    border-top: 1px solid #2a2a30;
+  }
+  .ai-consult-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #c9a961 0%, #b89548 100%);
+    color: #0d0d0f;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .ai-consult-btn:active { opacity: 0.85; transform: scale(0.98); }
+  .ai-consult-hint {
+    text-align: center;
+    color: #8a8680;
+    font-size: 11px;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .copy-toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #6db96d;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 200;
+  }
+  .copy-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* メモタブの上の警告ボックス */
+  .pending-box {
+    background: linear-gradient(180deg, #1f1a14 0%, #1a1612 100%);
+    border: 1px solid #4a3a20;
+    border-radius: 10px;
+    margin: 12px 16px 0;
+    padding: 12px;
+  }
+  .pending-box h4 {
+    font-size: 11px;
+    color: #c9a961;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .pending-item {
+    font-size: 13px;
+    color: #f0ede4;
+    padding: 5px 0;
+    line-height: 1.4;
+    display: flex;
+    gap: 6px;
+  }
+  .pending-item-tag {
+    flex-shrink: 0;
+    font-size: 10px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 600;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .pending-item-tag.tell { background: #c9a961; color: #0d0d0f; }
+  .pending-item-tag.ask { background: #7a8fb8; color: #fff; }
+  .pending-item-tag.skill { background: #d97a6a; color: #fff; }
+  .pending-item-tag.partial { background: #8a7a4a; color: #fff; }
+
+  .profile-field {
+    margin-bottom: 14px;
+  }
+  .profile-field:last-child { margin-bottom: 0; }
+  .profile-field label {
+    display: block;
+    font-size: 12px;
+    color: #a5a09a;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+  .profile-textarea {
+    width: 100%;
+    background: #18181c;
+    border: 1px solid #2a2a30;
+    border-radius: 6px;
+    color: #f0ede4;
+    font-size: 14px;
+    padding: 10px 12px;
+    resize: none;
+    min-height: 60px;
+    font-family: inherit;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    line-height: 1.5;
+  }
+  .profile-textarea::placeholder { color: #6a665e; }
+  .profile-textarea:focus { border-color: #6b5a3a; }
+  .profile-input {
+    width: 100%;
+    background: #18181c;
+    border: 1px solid #2a2a30;
+    border-radius: 6px;
+    color: #f0ede4;
+    font-size: 14px;
+    padding: 10px 12px;
+    font-family: inherit;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .profile-input:focus { border-color: #6b5a3a; }
+  .profile-save-status {
+    text-align: center;
+    color: #6db96d;
+    font-size: 11px;
+    padding: 8px;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .profile-save-status.show { opacity: 1; }
+  .skill-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+    font-size: 10px;
+    color: #8a8680;
+  }
+  .skill-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .skill-legend i {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 2px;
+  }
 </style>
 </head>
 <body>
@@ -407,6 +870,20 @@
   <button class="global-btn" onclick="showRecent()">最近のメモ</button>
 </div>
 
+<div class="backup-actions">
+  <button class="backup-btn primary" onclick="backupData()">
+    <span class="icon">💾</span>
+    <span>バックアップ</span>
+    <span class="last-backup" id="lastBackupLabel"></span>
+  </button>
+  <button class="backup-btn" onclick="restoreData()">
+    <span class="icon">📂</span>
+    <span>復元</span>
+  </button>
+</div>
+
+<input type="file" id="restoreFileInput" accept=".json" style="display:none" onchange="handleRestoreFile(event)" />
+
 <div class="staff-list" id="staffList"></div>
 
 <div class="detail" id="detail">
@@ -414,17 +891,111 @@
     <button class="back-btn" onclick="closeDetail()">‹</button>
     <div class="detail-name" id="detailName"></div>
   </div>
-  <div class="input-area">
-    <div class="tag-row">
-      <button class="tag" data-type="good" onclick="selectTag(this)">◎ 良かった</button>
-      <button class="tag" data-type="bad" onclick="selectTag(this)">△ 気になった</button>
-      <button class="tag" data-type="neutral" onclick="selectTag(this)">○ メモ</button>
-    </div>
-    <textarea class="memo-input" id="memoInput" placeholder="例:ピルスナーの注ぎ方が丁寧だった / 失敗を申告してくれた / 1on1で○○の話" autocapitalize="off" autocorrect="off"></textarea>
-    <button class="add-btn" id="addBtn" onclick="addMemo()">記録する</button>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="memo" onclick="switchTab('memo')">メモ</button>
+    <button class="tab" data-tab="profile" onclick="switchTab('profile')">プロフィール</button>
   </div>
-  <div class="memos" id="memosList"></div>
+
+  <div class="tab-content active" id="tab-memo">
+    <div id="pendingBox"></div>
+    <div class="input-area">
+      <div class="tag-row">
+        <button class="tag" data-type="good" onclick="selectTag(this)">◎ 良かった</button>
+        <button class="tag" data-type="bad" onclick="selectTag(this)">△ 気になった</button>
+        <button class="tag" data-type="neutral" onclick="selectTag(this)">○ メモ</button>
+      </div>
+      <textarea class="memo-input" id="memoInput" placeholder="例:ピルスナーの注ぎ方が丁寧だった / 失敗を申告してくれた / 1on1で○○の話" autocapitalize="off" autocorrect="off"></textarea>
+      <button class="add-btn" id="addBtn" onclick="addMemo()">記録する</button>
+    </div>
+    <div class="memos" id="memosList"></div>
+  </div>
+
+  <div class="tab-content" id="tab-profile">
+    <div class="profile-section">
+      <h3>基本情報</h3>
+      <div class="profile-field">
+        <label>入社年月</label>
+        <input type="month" class="profile-input" id="prof-joined" onchange="saveProfile()" />
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h3>スキル習得状況</h3>
+      <div class="skill-legend">
+        <span><i style="background:#4a4a52"></i>未習得</span>
+        <span><i style="background:#d97a6a"></i>練習中</span>
+        <span><i style="background:#7a8fb8"></i>一人で可</span>
+        <span><i style="background:#6db96d"></i>教えられる</span>
+      </div>
+      <div id="skillsContainer"></div>
+    </div>
+
+    <div class="profile-section">
+      <h3>性格・特性</h3>
+      <div class="profile-field">
+        <label>性格の傾向</label>
+        <textarea class="profile-textarea" id="prof-character" placeholder="例:慎重で丁寧。マイペース。明るくムードメーカー" onchange="saveProfile()"></textarea>
+      </div>
+      <div class="profile-field">
+        <label>モチベーションの源</label>
+        <textarea class="profile-textarea" id="prof-motivation" placeholder="例:褒められると伸びる / 任されたい / 新しいことを学びたい" onchange="saveProfile()"></textarea>
+      </div>
+      <div class="profile-field">
+        <label>苦手なこと・配慮ポイント</label>
+        <textarea class="profile-textarea" id="prof-careful" placeholder="例:急かされると焦る / 大人数の前で指摘されると萎縮する" onchange="saveProfile()"></textarea>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h3>伝え方ノウハウ</h3>
+      <div class="profile-field">
+        <label>注意する時のコツ</label>
+        <textarea class="profile-textarea" id="prof-howto-warn" placeholder="例:結論より先に労いを / 必ず1対1で / 端的に事実だけ伝える" onchange="saveProfile()"></textarea>
+      </div>
+      <div class="profile-field">
+        <label>褒める時のコツ</label>
+        <textarea class="profile-textarea" id="prof-howto-praise" placeholder="例:具体的な行動を挙げて / みんなの前で言うと喜ぶ / さりげなく伝える" onchange="saveProfile()"></textarea>
+      </div>
+      <div class="profile-field">
+        <label>1on1で話す時の注意点</label>
+        <textarea class="profile-textarea" id="prof-howto-1on1" placeholder="例:雑談から入る / 質問は具体的に / 沈黙を待つ" onchange="saveProfile()"></textarea>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h3>現在の課題・成長ポイント</h3>
+      <div class="profile-field">
+        <label>今伸ばしたいこと</label>
+        <textarea class="profile-textarea" id="prof-growing" placeholder="例:ハイブリッドの注ぎ方の安定化 / お客様への声かけ" onchange="saveProfile()"></textarea>
+      </div>
+      <div class="profile-field">
+        <label>期待していること</label>
+        <textarea class="profile-textarea" id="prof-expectation" placeholder="例:後輩指導 / 締め作業のリーダー" onchange="saveProfile()"></textarea>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h3>次回1on1で扱いたいこと</h3>
+      <div class="agenda-list" id="agendaList"></div>
+      <button class="add-agenda-btn" onclick="addAgenda()">+ 項目を追加</button>
+    </div>
+
+    <div class="ai-consult-section">
+      <button class="ai-consult-btn" onclick="copyForAI()">
+        💬 AIに相談する用のテキストをコピー
+      </button>
+      <div class="ai-consult-hint">
+        コピー後、Claudeなどのアプリに貼り付けて相談できます<br>
+        このスタッフのプロフィール・メモ・課題が自動でまとまります
+      </div>
+    </div>
+
+    <div class="profile-save-status" id="saveStatus">✓ 保存しました</div>
+  </div>
 </div>
+
+<div class="copy-toast" id="copyToast">✓ コピーしました</div>
 
 <script>
 const STAFF = [
@@ -436,8 +1007,28 @@ const STAFF = [
 ];
 
 const STORAGE_KEY = 'staff_memo_v1';
+const PROFILE_KEY = 'staff_profile_v1';
+const SKILLS = [
+  { key: 'perfect', label: 'パーフェクト' },
+  { key: 'first', label: 'ファースト' },
+  { key: 'hybrid', label: 'ハイブリッド' },
+  { key: 'explain', label: '新規説明' },
+  { key: 'kitchen', label: 'キッチン' },
+  { key: 'taru', label: '樽まわり' },
+  { key: 'morning', label: '朝の準備' },
+  { key: 'closeServer', label: 'サーバー締め' },
+  { key: 'closeKitchen', label: 'キッチン締め' }
+];
+const SKILL_LEVELS = [
+  { v: 0, label: '未', desc: '未習得' },
+  { v: 1, label: '練', desc: '練習中' },
+  { v: 2, label: '可', desc: '一人で可' },
+  { v: 3, label: '師', desc: '教えられる' }
+];
+
 let currentStaff = null;
 let currentTag = 'neutral';
+let saveStatusTimer = null;
 
 function loadData() {
   try {
@@ -445,6 +1036,197 @@ function loadData() {
   } catch(e) { return {}; }
 }
 function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+
+function loadProfiles() {
+  try {
+    return JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
+  } catch(e) { return {}; }
+}
+function saveProfiles(p) { localStorage.setItem(PROFILE_KEY, JSON.stringify(p)); }
+
+// バックアップ機能
+const BACKUP_META_KEY = 'staff_memo_backup_meta_v1';
+
+function getBackupMeta() {
+  try {
+    return JSON.parse(localStorage.getItem(BACKUP_META_KEY) || '{}');
+  } catch(e) { return {}; }
+}
+function setBackupMeta(m) { localStorage.setItem(BACKUP_META_KEY, JSON.stringify(m)); }
+
+function backupData() {
+  const memos = loadData();
+  const profiles = loadProfiles();
+  const payload = {
+    version: 1,
+    appName: 'staff-memo',
+    backedUpAt: new Date().toISOString(),
+    data: {
+      memos: memos,
+      profiles: profiles
+    }
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
+  a.href = url;
+  a.download = `staff_memo_backup_${dateStr}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+
+  // バックアップ日時を記録
+  const meta = getBackupMeta();
+  meta.lastBackupAt = Date.now();
+  setBackupMeta(meta);
+  updateBackupLabel();
+
+  // 案内メッセージ
+  setTimeout(() => {
+    alert('バックアップファイルを書き出しました。\n\n【重要】このファイルを必ず「ファイル」アプリのiCloud Driveなど、消えない場所に保存してください。\n\n復元するときに、このファイルが必要になります。');
+  }, 300);
+}
+
+function restoreData() {
+  const memos = loadData();
+  const profiles = loadProfiles();
+  const hasData = Object.keys(memos).length > 0 || Object.keys(profiles).length > 0;
+  if (hasData) {
+    if (!confirm('現在のデータは上書きされます。本当に復元しますか?\n\n念のため、先に「バックアップ」して現在のデータを保存することをおすすめします。')) {
+      return;
+    }
+  }
+  document.getElementById('restoreFileInput').click();
+}
+
+function handleRestoreFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const payload = JSON.parse(e.target.result);
+
+      // 形式チェック
+      if (!payload.data || (!payload.data.memos && !payload.data.profiles)) {
+        // 旧形式や別の形式に対応するため、ルート直下にmemos/profilesがある場合も許容
+        if (payload.memos || payload.profiles) {
+          payload.data = { memos: payload.memos || {}, profiles: payload.profiles || {} };
+        } else {
+          throw new Error('ファイル形式が正しくありません');
+        }
+      }
+
+      const newMemos = payload.data.memos || {};
+      const newProfiles = payload.data.profiles || {};
+
+      // データ件数をカウントして確認
+      const memoStaffCount = Object.keys(newMemos).length;
+      const memoCount = Object.values(newMemos).reduce((sum, arr) => sum + (arr?.length || 0), 0);
+      const profileCount = Object.keys(newProfiles).length;
+      const backedUpAt = payload.backedUpAt ? new Date(payload.backedUpAt).toLocaleString('ja-JP') : '不明';
+
+      const msg = `以下のデータで上書きします。よろしいですか?\n\n` +
+                  `バックアップ日時: ${backedUpAt}\n` +
+                  `メモ: ${memoStaffCount}名 / 計${memoCount}件\n` +
+                  `プロフィール: ${profileCount}名分`;
+
+      if (!confirm(msg)) {
+        event.target.value = '';
+        return;
+      }
+
+      saveData(newMemos);
+      saveProfiles(newProfiles);
+
+      // バックアップ時刻も更新(復元元の時点に)
+      const meta = getBackupMeta();
+      meta.lastBackupAt = payload.backedUpAt ? new Date(payload.backedUpAt).getTime() : Date.now();
+      setBackupMeta(meta);
+
+      alert('復元が完了しました');
+      event.target.value = '';
+      renderStaffList(document.getElementById('search').value);
+      updateBackupLabel();
+    } catch(err) {
+      alert('ファイルの読み込みに失敗しました。\n\n正しいバックアップファイル(.json)を選択してください。\n\nエラー: ' + err.message);
+      event.target.value = '';
+    }
+  };
+  reader.onerror = function() {
+    alert('ファイルの読み込みに失敗しました');
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function updateBackupLabel() {
+  const meta = getBackupMeta();
+  const label = document.getElementById('lastBackupLabel');
+  if (!label) return;
+  if (!meta.lastBackupAt) {
+    label.textContent = '未実行';
+    label.className = 'last-backup warning';
+    return;
+  }
+  const diffMs = Date.now() - meta.lastBackupAt;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDays === 0) {
+    label.textContent = '今日実行済';
+    label.className = 'last-backup good';
+  } else if (diffDays === 1) {
+    label.textContent = '昨日';
+    label.className = 'last-backup good';
+  } else if (diffDays <= 6) {
+    label.textContent = `${diffDays}日前`;
+    label.className = 'last-backup good';
+  } else {
+    label.textContent = `${diffDays}日前 (推奨)`;
+    label.className = 'last-backup warning';
+  }
+}
+
+// 起動時にバックアップ推奨をチェック
+function checkBackupReminder() {
+  const meta = getBackupMeta();
+  const memos = loadData();
+  const profiles = loadProfiles();
+  const hasData = Object.keys(memos).length > 0 || Object.keys(profiles).length > 0;
+  if (!hasData) return; // データがない場合は通知しない
+
+  if (!meta.lastBackupAt) {
+    // 初回:データがあるのにまだバックアップしていない
+    setTimeout(() => {
+      if (confirm('まだバックアップを取っていません。\n\nデータを失わないために、今すぐバックアップしますか?\n\n(後でもメイン画面の「バックアップ」ボタンから実行できます)')) {
+        backupData();
+      }
+    }, 800);
+    return;
+  }
+
+  const diffDays = Math.floor((Date.now() - meta.lastBackupAt) / (1000 * 60 * 60 * 24));
+  if (diffDays >= 7 && !meta.snoozedAt) {
+    setTimeout(() => {
+      if (confirm(`最後のバックアップから${diffDays}日経過しています。\n\n今すぐバックアップしますか?`)) {
+        backupData();
+      } else {
+        // 「いいえ」を押したら3日間スヌーズ
+        const m = getBackupMeta();
+        m.snoozedAt = Date.now();
+        setBackupMeta(m);
+      }
+    }, 800);
+  } else if (meta.snoozedAt) {
+    const snoozeDiff = Math.floor((Date.now() - meta.snoozedAt) / (1000 * 60 * 60 * 24));
+    if (snoozeDiff >= 3) {
+      const m = getBackupMeta();
+      delete m.snoozedAt;
+      setBackupMeta(m);
+    }
+  }
+}
 
 function renderStaffList(filter = '') {
   const data = loadData();
@@ -495,9 +1277,429 @@ function openDetail(name) {
   document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
   document.querySelector('.tag[data-type="neutral"]').classList.add('active');
   currentTag = 'neutral';
+  switchTab('memo');
+  renderPendingBox();
   renderMemos();
+  renderProfile();
   document.getElementById('detail').classList.add('open');
   document.body.classList.add('detail-open');
+}
+
+function switchTab(tabName) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+  document.getElementById(`tab-${tabName}`).classList.add('active');
+}
+
+function renderProfile() {
+  const profiles = loadProfiles();
+  const p = profiles[currentStaff] || {};
+
+  // 基本情報
+  document.getElementById('prof-joined').value = p.joined || '';
+
+  // 性格関連のテキスト欄
+  document.getElementById('prof-character').value = p.character || '';
+  document.getElementById('prof-motivation').value = p.motivation || '';
+  document.getElementById('prof-careful').value = p.careful || '';
+  document.getElementById('prof-howto-warn').value = p.howtoWarn || '';
+  document.getElementById('prof-howto-praise').value = p.howtoPraise || '';
+  document.getElementById('prof-howto-1on1').value = p.howto1on1 || '';
+  document.getElementById('prof-growing').value = p.growing || '';
+  document.getElementById('prof-expectation').value = p.expectation || '';
+
+  // スキル表
+  const skills = p.skills || {};
+  const concerns = p.concerns || {};
+  const container = document.getElementById('skillsContainer');
+  container.innerHTML = SKILLS.map(s => {
+    const currentLevel = skills[s.key] !== undefined ? skills[s.key] : 3;
+    const concern = concerns[s.key] || {};
+    const concernText = concern.text || '';
+    const concernStatus = concern.status; // 0:未伝達 1:一部伝達 2:伝達済
+    const hasConcern = concernText.trim() !== '';
+    const statusIndicator = hasConcern && concernStatus !== 2
+      ? (concernStatus === 1 ? '<span class="skill-concern-indicator">⚠ 一部伝達</span>' : '<span class="skill-concern-indicator">⚠ 未伝達</span>')
+      : '';
+
+    return `
+      <div class="skill-block">
+        <div class="skill-row">
+          <div class="skill-name">${s.label}${statusIndicator}</div>
+          <div class="skill-levels">
+            ${SKILL_LEVELS.map(lv => `
+              <button class="skill-level ${currentLevel === lv.v ? 'active' : ''}"
+                      data-skill="${s.key}" data-level="${lv.v}"
+                      onclick="setSkill('${s.key}', ${lv.v})"
+                      title="${lv.desc}">${lv.label}</button>
+            `).join('')}
+          </div>
+        </div>
+        <button class="skill-concern-toggle" onclick="toggleConcern('${s.key}')">
+          ${hasConcern ? '✎ 気になる点: ' + escapeHtml(concernText.length > 30 ? concernText.slice(0, 30) + '…' : concernText) : '+ 気になる点を追加'}
+        </button>
+        <div class="skill-concern-area ${hasConcern ? 'open' : ''}" id="concern-${s.key}">
+          <textarea class="skill-concern-input"
+                    id="concern-text-${s.key}"
+                    placeholder="例:泡の厚みがやや薄い時がある / 注ぐスピードが早すぎる"
+                    onchange="saveConcern('${s.key}')">${escapeHtml(concernText)}</textarea>
+          <div class="skill-status-row">
+            <button class="skill-status-btn ${concernStatus === 0 ? 'active' : ''}" data-status="0" onclick="setConcernStatus('${s.key}', 0)">未伝達</button>
+            <button class="skill-status-btn ${concernStatus === 1 ? 'active' : ''}" data-status="1" onclick="setConcernStatus('${s.key}', 1)">一部伝達</button>
+            <button class="skill-status-btn ${concernStatus === 2 ? 'active' : ''}" data-status="2" onclick="setConcernStatus('${s.key}', 2)">伝達済</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 1on1アジェンダリスト
+  renderAgenda();
+}
+
+function toggleConcern(skillKey) {
+  const area = document.getElementById(`concern-${skillKey}`);
+  area.classList.toggle('open');
+  if (area.classList.contains('open')) {
+    setTimeout(() => document.getElementById(`concern-text-${skillKey}`)?.focus(), 50);
+  }
+}
+
+function saveConcern(skillKey) {
+  const text = document.getElementById(`concern-text-${skillKey}`).value;
+  const profiles = loadProfiles();
+  if (!profiles[currentStaff]) profiles[currentStaff] = {};
+  if (!profiles[currentStaff].concerns) profiles[currentStaff].concerns = {};
+  if (!profiles[currentStaff].concerns[skillKey]) profiles[currentStaff].concerns[skillKey] = {};
+  profiles[currentStaff].concerns[skillKey].text = text;
+  // 初めて入力した時は「未伝達」に設定
+  if (text.trim() && profiles[currentStaff].concerns[skillKey].status === undefined) {
+    profiles[currentStaff].concerns[skillKey].status = 0;
+  }
+  saveProfiles(profiles);
+  showSaveStatus();
+  // 再レンダリングで indicator や toggle のテキスト更新
+  renderProfile();
+}
+
+function setConcernStatus(skillKey, status) {
+  const profiles = loadProfiles();
+  if (!profiles[currentStaff]) profiles[currentStaff] = {};
+  if (!profiles[currentStaff].concerns) profiles[currentStaff].concerns = {};
+  if (!profiles[currentStaff].concerns[skillKey]) profiles[currentStaff].concerns[skillKey] = {};
+  profiles[currentStaff].concerns[skillKey].status = status;
+  saveProfiles(profiles);
+  showSaveStatus();
+  renderProfile();
+}
+
+// 1on1アジェンダ
+function renderAgenda() {
+  const profiles = loadProfiles();
+  const agenda = profiles[currentStaff]?.agenda || [];
+  const list = document.getElementById('agendaList');
+  if (agenda.length === 0) {
+    list.innerHTML = '';
+    return;
+  }
+  list.innerHTML = agenda.map((a, i) => `
+    <div class="agenda-item ${a.done ? 'done' : ''}">
+      <div class="agenda-item-top">
+        <button class="agenda-type-btn ${a.type === 'tell' ? 'active' : ''}" data-type="tell" onclick="setAgendaType(${i}, 'tell')">伝える</button>
+        <button class="agenda-type-btn ${a.type === 'ask' ? 'active' : ''}" data-type="ask" onclick="setAgendaType(${i}, 'ask')">聞く</button>
+      </div>
+      <textarea class="agenda-input" id="agenda-text-${i}" placeholder="例:最近の頑張りを言葉にする / 将来どうなりたいか聞く" onchange="saveAgendaText(${i})">${escapeHtml(a.text || '')}</textarea>
+      <div class="agenda-bottom">
+        <button class="agenda-done-btn ${a.done ? 'active' : ''}" onclick="toggleAgendaDone(${i})">${a.done ? '✓ 済' : '未'}</button>
+        <button class="agenda-del" onclick="delAgenda(${i})">×</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addAgenda() {
+  const profiles = loadProfiles();
+  if (!profiles[currentStaff]) profiles[currentStaff] = {};
+  if (!profiles[currentStaff].agenda) profiles[currentStaff].agenda = [];
+  profiles[currentStaff].agenda.push({ type: 'tell', text: '', done: false, createdAt: Date.now() });
+  saveProfiles(profiles);
+  renderAgenda();
+  setTimeout(() => {
+    const items = document.querySelectorAll('.agenda-input');
+    const last = items[items.length - 1];
+    if (last) last.focus();
+  }, 50);
+}
+
+function saveAgendaText(i) {
+  const text = document.getElementById(`agenda-text-${i}`).value;
+  const profiles = loadProfiles();
+  profiles[currentStaff].agenda[i].text = text;
+  saveProfiles(profiles);
+  showSaveStatus();
+}
+
+function setAgendaType(i, type) {
+  const profiles = loadProfiles();
+  profiles[currentStaff].agenda[i].type = type;
+  saveProfiles(profiles);
+  renderAgenda();
+}
+
+function toggleAgendaDone(i) {
+  const profiles = loadProfiles();
+  profiles[currentStaff].agenda[i].done = !profiles[currentStaff].agenda[i].done;
+  if (profiles[currentStaff].agenda[i].done) {
+    profiles[currentStaff].agenda[i].doneAt = Date.now();
+  }
+  saveProfiles(profiles);
+  renderAgenda();
+  showSaveStatus();
+}
+
+function delAgenda(i) {
+  if (!confirm('この項目を削除しますか?')) return;
+  const profiles = loadProfiles();
+  profiles[currentStaff].agenda.splice(i, 1);
+  saveProfiles(profiles);
+  renderAgenda();
+}
+
+// AI相談用テキストをクリップボードにコピー
+function copyForAI() {
+  const data = loadData();
+  const profiles = loadProfiles();
+  const memos = data[currentStaff] || [];
+  const profile = profiles[currentStaff] || {};
+
+  let text = `# スタッフ相談:${currentStaff} について\n\n`;
+  text += `私はサッポロ生ビール黒ラベルのフラッグシップビアバーでサブマネージャーをしています。\n`;
+  text += `以下のスタッフ「${currentStaff}」について、性格に合った接し方、注意の仕方、褒め方、1on1の進め方、現在抱えている課題への対応などを一緒に考えてほしいです。\n\n`;
+
+  text += `## プロフィール\n\n`;
+
+  if (profile.joined) text += `**入社年月**: ${profile.joined}\n\n`;
+
+  // スキル
+  if (profile.skills) {
+    const notFull = SKILLS.filter(s => {
+      const lv = profile.skills[s.key];
+      return lv !== undefined && lv !== 3;
+    });
+    if (notFull.length > 0) {
+      text += `**未習得・習得途中のスキル**:\n`;
+      notFull.forEach(s => {
+        const lv = profile.skills[s.key];
+        const lvLabel = SKILL_LEVELS.find(l => l.v === lv)?.desc || '?';
+        text += `- ${s.label}: ${lvLabel}\n`;
+      });
+      text += `\n`;
+    } else {
+      text += `**スキル**: 全項目で「教えられる」レベル(ベテラン)\n\n`;
+    }
+  }
+
+  // 気になる点
+  if (profile.concerns) {
+    const concernList = [];
+    SKILLS.forEach(s => {
+      const c = profile.concerns[s.key];
+      if (c && c.text && c.text.trim()) {
+        const statusLabel = c.status === 2 ? '伝達済' : c.status === 1 ? '一部伝達済' : '未伝達';
+        concernList.push(`- **${s.label}** (${statusLabel}): ${c.text}`);
+      }
+    });
+    if (concernList.length > 0) {
+      text += `**スキルで気になる点**:\n${concernList.join('\n')}\n\n`;
+    }
+  }
+
+  // 性格・特性
+  const personalityFields = [
+    { key: 'character', label: '性格の傾向' },
+    { key: 'motivation', label: 'モチベーションの源' },
+    { key: 'careful', label: '苦手なこと・配慮ポイント' }
+  ];
+  const hasPersonality = personalityFields.some(f => profile[f.key]);
+  if (hasPersonality) {
+    text += `## 性格・特性\n\n`;
+    personalityFields.forEach(f => {
+      if (profile[f.key]) text += `**${f.label}**: ${profile[f.key]}\n\n`;
+    });
+  }
+
+  // 伝え方ノウハウ(今分かっているもの)
+  const howtoFields = [
+    { key: 'howtoWarn', label: '注意する時のコツ(現在の仮説)' },
+    { key: 'howtoPraise', label: '褒める時のコツ(現在の仮説)' },
+    { key: 'howto1on1', label: '1on1で話す時の注意点(現在の仮説)' }
+  ];
+  const hasHowto = howtoFields.some(f => profile[f.key]);
+  if (hasHowto) {
+    text += `## 現在実践している/考えている関わり方\n\n`;
+    howtoFields.forEach(f => {
+      if (profile[f.key]) text += `**${f.label}**: ${profile[f.key]}\n\n`;
+    });
+  }
+
+  // 課題・期待
+  if (profile.growing || profile.expectation) {
+    text += `## 課題・期待\n\n`;
+    if (profile.growing) text += `**今伸ばしたいこと**: ${profile.growing}\n\n`;
+    if (profile.expectation) text += `**期待していること**: ${profile.expectation}\n\n`;
+  }
+
+  // 1on1アジェンダ
+  if (profile.agenda && profile.agenda.length > 0) {
+    const pending = profile.agenda.filter(a => !a.done && a.text && a.text.trim());
+    if (pending.length > 0) {
+      text += `## 次回1on1で扱いたいこと\n\n`;
+      pending.forEach(a => {
+        text += `- [${a.type === 'ask' ? '聞きたい' : '伝えたい'}] ${a.text}\n`;
+      });
+      text += `\n`;
+    }
+  }
+
+  // 最近のメモ(直近10件)
+  if (memos.length > 0) {
+    text += `## 最近の観察メモ(直近${Math.min(10, memos.length)}件)\n\n`;
+    memos.slice(0, 10).forEach(m => {
+      const d = new Date(m.t);
+      const ds = `${d.getMonth()+1}/${d.getDate()}`;
+      const tl = { good: '◎良かった', bad: '△気になった', neutral: '○メモ' }[m.type] || '○';
+      text += `- **${ds} [${tl}]** ${m.body}\n`;
+    });
+    text += `\n`;
+  }
+
+  text += `---\n\n`;
+  text += `## 相談したいこと\n\n`;
+  text += `(ここに具体的に相談したいことを書いてください。例:\n`;
+  text += `・このスタッフへの注意の伝え方で迷っている\n`;
+  text += `・1on1で何を話すといいか整理したい\n`;
+  text += `・最近の様子から考えられる原因を一緒に分析してほしい\n`;
+  text += `・性格や特性をもっと深く言語化したい\n`;
+  text += `など)\n`;
+
+  // クリップボードにコピー
+  copyToClipboard(text);
+}
+
+function copyToClipboard(text) {
+  // iOS Safariでも動くようにフォールバック付き
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => {
+      showCopyToast();
+    }).catch(() => {
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.top = '0';
+  ta.style.left = '0';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showCopyToast();
+  } catch (e) {
+    alert('コピーに失敗しました。手動で選択してコピーしてください。');
+  }
+  document.body.removeChild(ta);
+}
+
+function showCopyToast() {
+  const toast = document.getElementById('copyToast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// メモタブ上部の未対応項目表示
+function renderPendingBox() {
+  const profiles = loadProfiles();
+  const p = profiles[currentStaff] || {};
+  const concerns = p.concerns || {};
+  const agenda = p.agenda || [];
+
+  const pendingSkills = [];
+  SKILLS.forEach(s => {
+    const c = concerns[s.key];
+    if (c && c.text && c.text.trim() && c.status !== 2) {
+      pendingSkills.push({ label: s.label, text: c.text, status: c.status });
+    }
+  });
+
+  const pendingAgenda = agenda.filter(a => !a.done && a.text && a.text.trim());
+
+  const box = document.getElementById('pendingBox');
+  if (pendingSkills.length === 0 && pendingAgenda.length === 0) {
+    box.innerHTML = '';
+    return;
+  }
+
+  let html = '<div class="pending-box"><h4>⚠ 次に会った時に扱うこと</h4>';
+  pendingAgenda.forEach(a => {
+    const tagClass = a.type === 'ask' ? 'ask' : 'tell';
+    const tagLabel = a.type === 'ask' ? '聞く' : '伝える';
+    html += `<div class="pending-item"><span class="pending-item-tag ${tagClass}">${tagLabel}</span><span>${escapeHtml(a.text)}</span></div>`;
+  });
+  pendingSkills.forEach(s => {
+    const tagClass = s.status === 1 ? 'partial' : 'skill';
+    const tagLabel = s.status === 1 ? '一部済' : 'スキル';
+    html += `<div class="pending-item"><span class="pending-item-tag ${tagClass}">${tagLabel}</span><span><b>${s.label}</b>:${escapeHtml(s.text)}</span></div>`;
+  });
+  html += '</div>';
+  box.innerHTML = html;
+}
+
+function setSkill(skillKey, level) {
+  const profiles = loadProfiles();
+  if (!profiles[currentStaff]) profiles[currentStaff] = {};
+  if (!profiles[currentStaff].skills) profiles[currentStaff].skills = {};
+  profiles[currentStaff].skills[skillKey] = level;
+  saveProfiles(profiles);
+
+  // UI更新:該当行のボタンを切り替え
+  document.querySelectorAll(`.skill-level[data-skill="${skillKey}"]`).forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.level) === level);
+  });
+  showSaveStatus();
+}
+
+function saveProfile() {
+  const profiles = loadProfiles();
+  if (!profiles[currentStaff]) profiles[currentStaff] = {};
+  const p = profiles[currentStaff];
+  p.joined = document.getElementById('prof-joined').value;
+  p.character = document.getElementById('prof-character').value;
+  p.motivation = document.getElementById('prof-motivation').value;
+  p.careful = document.getElementById('prof-careful').value;
+  p.howtoWarn = document.getElementById('prof-howto-warn').value;
+  p.howtoPraise = document.getElementById('prof-howto-praise').value;
+  p.howto1on1 = document.getElementById('prof-howto-1on1').value;
+  p.growing = document.getElementById('prof-growing').value;
+  p.expectation = document.getElementById('prof-expectation').value;
+  p.updatedAt = Date.now();
+  saveProfiles(profiles);
+  showSaveStatus();
+}
+
+function showSaveStatus() {
+  const el = document.getElementById('saveStatus');
+  el.classList.add('show');
+  if (saveStatusTimer) clearTimeout(saveStatusTimer);
+  saveStatusTimer = setTimeout(() => el.classList.remove('show'), 1500);
 }
 
 function closeDetail() {
@@ -637,18 +1839,89 @@ function escapeHtml(s) {
 
 function exportData() {
   const data = loadData();
+  const profiles = loadProfiles();
   let text = '=== スタッフメモ エクスポート ===\n';
   text += new Date().toLocaleString('ja-JP') + '\n\n';
+
   STAFF.forEach(name => {
     const memos = data[name] || [];
-    if (memos.length === 0) return;
-    text += `■ ${name} (${memos.length}件)\n`;
-    memos.forEach(m => {
-      const d = new Date(m.t);
-      const ds = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-      const tl = { good: '◎', bad: '△', neutral: '○' }[m.type] || '○';
-      text += `  ${ds} ${tl} ${m.body}\n`;
-    });
+    const profile = profiles[name] || {};
+    const hasProfile = profile.character || profile.motivation || profile.careful ||
+                       profile.howtoWarn || profile.howtoPraise || profile.howto1on1 ||
+                       profile.growing || profile.expectation || profile.skills ||
+                       profile.joined || profile.concerns || profile.agenda;
+    if (memos.length === 0 && !hasProfile) return;
+
+    text += `■ ${name}`;
+    if (memos.length > 0) text += ` (メモ${memos.length}件)`;
+    text += '\n';
+
+    // プロフィール情報
+    if (hasProfile) {
+      text += '【プロフィール】\n';
+      if (profile.joined) text += `  入社: ${profile.joined}\n`;
+      if (profile.skills) {
+        text += '  スキル: ';
+        const skillStrs = SKILLS.map(s => {
+          const lv = profile.skills[s.key];
+          if (lv === undefined || lv === 3) return null;
+          const lvLabel = SKILL_LEVELS.find(l => l.v === lv)?.desc || '?';
+          return `${s.label}=${lvLabel}`;
+        }).filter(Boolean);
+        text += skillStrs.length > 0 ? skillStrs.join(', ') : '全て習得済';
+        text += '\n';
+      }
+      // 気になる点
+      if (profile.concerns) {
+        const concernStrs = [];
+        SKILLS.forEach(s => {
+          const c = profile.concerns[s.key];
+          if (c && c.text && c.text.trim()) {
+            const statusLabel = c.status === 2 ? '伝達済' : c.status === 1 ? '一部伝達' : '未伝達';
+            concernStrs.push(`${s.label}[${statusLabel}]: ${c.text}`);
+          }
+        });
+        if (concernStrs.length > 0) {
+          text += '  気になる点:\n';
+          concernStrs.forEach(s => text += `    - ${s}\n`);
+        }
+      }
+      if (profile.character) text += `  性格: ${profile.character}\n`;
+      if (profile.motivation) text += `  モチベ: ${profile.motivation}\n`;
+      if (profile.careful) text += `  配慮: ${profile.careful}\n`;
+      if (profile.howtoWarn) text += `  注意のコツ: ${profile.howtoWarn}\n`;
+      if (profile.howtoPraise) text += `  褒めのコツ: ${profile.howtoPraise}\n`;
+      if (profile.howto1on1) text += `  1on1コツ: ${profile.howto1on1}\n`;
+      if (profile.growing) text += `  成長中: ${profile.growing}\n`;
+      if (profile.expectation) text += `  期待: ${profile.expectation}\n`;
+      // 1on1アジェンダ
+      if (profile.agenda && profile.agenda.length > 0) {
+        const pending = profile.agenda.filter(a => !a.done && a.text && a.text.trim());
+        const done = profile.agenda.filter(a => a.done && a.text && a.text.trim());
+        if (pending.length > 0) {
+          text += '  次回1on1で扱うこと:\n';
+          pending.forEach(a => {
+            text += `    - [${a.type === 'ask' ? '聞く' : '伝える'}] ${a.text}\n`;
+          });
+        }
+        if (done.length > 0) {
+          text += '  対応済の1on1項目:\n';
+          done.forEach(a => {
+            text += `    - [${a.type === 'ask' ? '聞いた' : '伝えた'}] ${a.text}\n`;
+          });
+        }
+      }
+    }
+
+    if (memos.length > 0) {
+      text += '【メモ】\n';
+      memos.forEach(m => {
+        const d = new Date(m.t);
+        const ds = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+        const tl = { good: '◎', bad: '△', neutral: '○' }[m.type] || '○';
+        text += `  ${ds} ${tl} ${m.body}\n`;
+      });
+    }
     text += '\n';
   });
   const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
@@ -684,6 +1957,8 @@ document.getElementById('search').addEventListener('input', e => {
 });
 
 renderStaffList();
+updateBackupLabel();
+checkBackupReminder();
 </script>
 </body>
 </html>
