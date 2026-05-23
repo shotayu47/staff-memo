@@ -107,6 +107,41 @@
   }
   .staff-card[data-recent="true"] .dot { background: #c9a961; }
 
+  /* 社員カード */
+  .staff-card.is-staff {
+    background: linear-gradient(135deg, #1f1a14 0%, #18181c 100%);
+    border-color: #4a3a20;
+  }
+  .staff-card.is-staff:active {
+    background: linear-gradient(135deg, #2a251a 0%, #232328 100%);
+  }
+  .role-badge {
+    display: inline-block;
+    font-size: 10px;
+    color: #c9a961;
+    background: rgba(201, 169, 97, 0.12);
+    border: 1px solid rgba(201, 169, 97, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+  .me-badge {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: #c9a961;
+    color: #0d0d0f;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+  }
+  .staff-card.is-staff .me-badge ~ .dot,
+  .staff-card .me-badge ~ .dot {
+    display: none;
+  }
+
   .detail {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -999,12 +1034,17 @@
 
 <script>
 const STAFF = [
-  "藤咲 杏奈","木村 綾乃","加藤 有希","葛谷 進一郎","藤岡 友季也",
-  "白井 千晶","木村 明宏","八木 瑞希","関谷 汐梨","大江 信明",
-  "深澤 小春","髙橋 信知","髙部 凜","外崎 唯","梅澤 鈴奈",
-  "阿部 憲太","宇野 福峰","鈴木 里桜","宮内 萌々香","田上 恵梨那",
-  "豊田 彩莉","三宅 力","石田 優果"
+  { name: "柿沼", role: "総括", isStaff: true },
+  { name: "松尾", role: "マネージャー", isStaff: true },
+  { name: "湯浅", role: "サブマネージャー", isStaff: true, isMe: true },
+  { name: "藤咲 杏奈" }, { name: "木村 綾乃" }, { name: "加藤 有希" }, { name: "葛谷 進一郎" }, { name: "藤岡 友季也" },
+  { name: "白井 千晶" }, { name: "木村 明宏" }, { name: "八木 瑞希" }, { name: "関谷 汐梨" }, { name: "大江 信明" },
+  { name: "深澤 小春" }, { name: "髙橋 信知" }, { name: "髙部 凜" }, { name: "外崎 唯" }, { name: "梅澤 鈴奈" },
+  { name: "阿部 憲太" }, { name: "宇野 福峰" }, { name: "鈴木 里桜" }, { name: "宮内 萌々香" }, { name: "田上 恵梨那" },
+  { name: "豊田 彩莉" }, { name: "三宅 力" }, { name: "石田 優果" }
 ];
+const STAFF_NAMES = STAFF.map(s => s.name);
+function getStaffInfo(name) { return STAFF.find(s => s.name === name) || { name }; }
 
 const STORAGE_KEY = 'staff_memo_v1';
 const PROFILE_KEY = 'staff_profile_v1';
@@ -1234,22 +1274,28 @@ function renderStaffList(filter = '') {
   const now = Date.now();
   const recentMs = 1000 * 60 * 60 * 24 * 7;
 
-  const filtered = STAFF.filter(n => {
+  const filtered = STAFF.filter(s => {
     if (!filter) return true;
     const q = filter.toLowerCase().replace(/\s/g,'');
-    return n.toLowerCase().replace(/\s/g,'').includes(q);
+    return s.name.toLowerCase().replace(/\s/g,'').includes(q);
   });
 
-  list.innerHTML = filtered.map(name => {
+  list.innerHTML = filtered.map(s => {
+    const name = s.name;
     const memos = data[name] || [];
     const count = memos.length;
     const latest = memos[0];
     const recent = latest && (now - latest.t < recentMs);
     const latestText = latest ? formatDate(latest.t) : 'メモなし';
+    const staffBadge = s.isStaff ? `<div class="role-badge">${escapeHtml(s.role || '社員')}</div>` : '';
+    const meBadge = s.isMe ? `<div class="me-badge">YOU</div>` : '';
+    const cardClass = s.isStaff ? 'staff-card is-staff' : 'staff-card';
     return `
-      <div class="staff-card" data-recent="${recent}" onclick="openDetail('${name}')">
+      <div class="${cardClass}" data-recent="${recent}" onclick="openDetail('${name}')">
         <div class="dot"></div>
+        ${meBadge}
         <div class="name">${name}</div>
+        ${staffBadge}
         <div class="count">${count} 件</div>
         <div class="latest">${latestText}</div>
       </div>
@@ -1843,7 +1889,8 @@ function exportData() {
   let text = '=== スタッフメモ エクスポート ===\n';
   text += new Date().toLocaleString('ja-JP') + '\n\n';
 
-  STAFF.forEach(name => {
+  STAFF.forEach(s => {
+    const name = s.name;
     const memos = data[name] || [];
     const profile = profiles[name] || {};
     const hasProfile = profile.character || profile.motivation || profile.careful ||
@@ -1853,6 +1900,7 @@ function exportData() {
     if (memos.length === 0 && !hasProfile) return;
 
     text += `■ ${name}`;
+    if (s.isStaff) text += ` [${s.role}]`;
     if (memos.length > 0) text += ` (メモ${memos.length}件)`;
     text += '\n';
 
